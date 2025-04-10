@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".GestionModulos">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="423dp"
+        android:layout_height="136dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imag2_ejalum">
+
+        <ImageView
+            android:id="@+id/image1_cabecera"
+            android:layout_width="134dp"
+            android:layout_height="132dp"
+            app:srcCompat="@drawable/logo4" />
+
+        <ImageView
+            android:id="@+id/imag2_cabecera"
+            android:layout_width="153dp"
+            android:layout_height="133dp"
+            android:src="@drawable/logo2"
+            app:srcCompat="@drawable/logo2" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text1_getmodul"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="GESTIÓN DE MÓDULOS"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/text2_getmodul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar módulo educativo"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/list1_getmodul"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1_getmodul" />
+
+    <ListView
+        android:id="@+id/list1_getmodul"
+        android:layout_width="334dp"
+        android:layout_height="279dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="56dp"
+        android:background="#ABA9A9"
+        app:layout_constraintBottom_toTopOf="@+id/boton1_getmodul"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.692"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1_getmodul" />
+
+    <Button
+        android:id="@+id/boton1_getmodul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView2" />
+
+    <Button
+        android:id="@+id/boton2_getmodul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="16dp"
+        android:text="Siguiente"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintStart_toEndOf="@+id/boton1_getmodul"
+        app:layout_constraintTop_toBottomOf="@+id/listView2" />
+</androidx.constraintlayout.widget.ConstraintLayout>
