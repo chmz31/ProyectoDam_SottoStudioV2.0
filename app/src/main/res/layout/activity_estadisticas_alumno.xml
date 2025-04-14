@@ -151,7 +151,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTime4" />
 
     <EditText
-        android:id="@+id/editTextTime"
+        android:id="@+id/edit4_estadalumn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
