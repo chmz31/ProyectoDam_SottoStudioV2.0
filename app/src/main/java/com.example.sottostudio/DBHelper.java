@@ -1,5 +1,7 @@
 package com.example.sottostudio;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -100,6 +102,28 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // En el futuro, manejar migraciones
+
+    }
+    public boolean insertarUsuario(String nombre, String apellidos, String email, String password, String fechaNacimiento, String rol) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nombre", nombre);
+        values.put("apellidos", apellidos);
+        values.put("email", email);
+        values.put("password", password);
+        values.put("fecha_nacimiento", fechaNacimiento);
+        values.put("rol", rol);
+
+        long resultado = db.insert("usuarios", null, values);
+        return resultado != -1;
+    }
+
+    public boolean emailExiste(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_usuario FROM usuarios WHERE email = ?", new String[]{email});
+        boolean existe = cursor.moveToFirst();
+        cursor.close();
+        return existe;
     }
 }
+

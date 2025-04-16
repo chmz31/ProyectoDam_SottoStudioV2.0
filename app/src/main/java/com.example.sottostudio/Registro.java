@@ -1,10 +1,12 @@
 package com.example.sottostudio;
+import com.example.sottostudio.DBHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,7 @@ public class Registro extends AppCompatActivity {
             return insets;
         });
 
+
         nombre = findViewById(R.id.edit1_registro);
         email = findViewById(R.id.edit2_registro);
         fechaNac = findViewById(R.id.edit3_registro);
@@ -45,21 +48,19 @@ public class Registro extends AppCompatActivity {
         });
 
         boton2.setOnClickListener(v -> {
-            String nombreTexto = nombre.getText().toString().trim();
+            String nombreCompleto = nombre.getText().toString().trim();
             String emailTexto = email.getText().toString().trim();
             String fechaNacTexto = fechaNac.getText().toString().trim();
             String password = contrasena.getText().toString();
             String confirmPassword = confContr.getText().toString();
 
-            // Validar que todos los campos estén llenos
-            if (nombreTexto.isEmpty() || emailTexto.isEmpty() || fechaNacTexto.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            if (nombreCompleto.isEmpty() || emailTexto.isEmpty() || fechaNacTexto.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Validar contraseña
             if (!esContrasenaValida(password)) {
-                Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, un número y un símbolo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, un número y un símbolo", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -68,18 +69,26 @@ public class Registro extends AppCompatActivity {
                 return;
             }
 
-            // Simular la asignación de rol (puedes reemplazar esto con una consulta a la base de datos)
-            String rol = obtenerRolUsuario(emailTexto);
+            DBHelper dbHelper = new DBHelper(this);
 
-            // Redirigir a la actividad correspondiente
-            if (rol.equals("profesor")) {
-                Intent intent = new Intent(Registro.this, PerfilProfesor.class);
-                startActivity(intent);
-            } else if (rol.equals("alumno")) {
-                Intent intent = new Intent(Registro.this, PerfilAlumno.class);
-                startActivity(intent);
+            if (dbHelper.emailExiste(emailTexto)) {
+                Toast.makeText(this, "Este correo ya está registrado", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Separar nombre y apellidos (simplificado)
+            String[] partesNombre = nombreCompleto.split(" ", 2);
+            String nombreSolo = partesNombre[0];
+            String apellidos = partesNombre.length > 1 ? partesNombre[1] : "";
+
+            boolean exito = dbHelper.insertarUsuario(nombreSolo, apellidos, emailTexto, password, fechaNacTexto, "alumno");
+
+            if (exito) {
+                Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Registro.this, InicioSesion.class));
+                finish();
             } else {
-                Toast.makeText(this, "Error: Rol no asignado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -92,13 +101,13 @@ public class Registro extends AppCompatActivity {
                 password.matches(".*[@#$%^&+=!].*");
     }
 
-    private String obtenerRolUsuario(String email) {
-        // Simulación: Asignar rol según el email (reemplazar con lógica de base de datos)
-        if (email.equals("profesor@example.com")) {
-            return "profesor";
-        } else if (email.equals("alumno@example.com")) {
-            return "alumno";
-        }
-        return "desconocido";
-    }
+//    private String obtenerRolUsuario(String email) {
+//         Simulación: Asignar rol según el email (reemplazar con lógica de base de datos)
+//        if (email.equals("profesor@example.com")) {
+//            return "profesor";
+//        } else if (email.equals("alumno@example.com")) {
+//            return "alumno";
+//        }
+//       return "desconocido";
+//   }
 }
