@@ -42,8 +42,8 @@ public class InicioSesion extends AppCompatActivity {
         boton2 = findViewById(R.id.boton2_inicio);
 
         boton1.setOnClickListener(v -> {
-            String usuarioTexto = usuario.getText().toString();
-            String contrasenaTexto = contrasena.getText().toString();
+            String usuarioTexto = usuario.getText().toString().trim();
+            String contrasenaTexto = contrasena.getText().toString().trim();
 
             if (!esEmailValido(usuarioTexto)) {
                 Toast.makeText(this, "Email no válido", Toast.LENGTH_SHORT).show();
@@ -55,8 +55,23 @@ public class InicioSesion extends AppCompatActivity {
                 return;
             }
 
-            // Aquí puedes agregar la lógica para verificar las credenciales en la base de datos
-            Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+            DBHelper dbHelper = new DBHelper(this);
+            boolean credencialesValidas = dbHelper.validarUsuario(usuarioTexto, contrasenaTexto);
+
+            if (credencialesValidas) {
+                String rol = dbHelper.obtenerRol(usuarioTexto);
+                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+
+                if (rol.equals("alumno")) {
+                    startActivity(new Intent(this, PerfilAlumno.class));
+                } else if (rol.equals("profesor")) {
+                    startActivity(new Intent(this, PerfilProfesor.class));
+                }
+
+                finish();
+            } else {
+                Toast.makeText(this, "Email o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+            }
         });
 
         boton2.setOnClickListener(v -> {

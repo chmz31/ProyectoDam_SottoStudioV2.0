@@ -125,5 +125,24 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return existe;
     }
+    public boolean validarUsuario(String email, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM usuarios WHERE email = ? AND password = ?", new String[]{email, password});
+        boolean existe = cursor.getCount() > 0;
+        cursor.close();
+        return existe;
+    }
+
+    public String obtenerRol(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT rol FROM usuarios WHERE email = ?", new String[]{email});
+        if (cursor.moveToFirst()) {
+            String rol = cursor.getString(0);
+            cursor.close();
+            return rol;
+        }
+        cursor.close();
+        return "desconocido";
+    }
 }
 
