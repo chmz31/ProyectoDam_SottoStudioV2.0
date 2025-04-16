@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SottoStudio"
         tools:targetApi="31">
+        <!-- MainActivity configurada como pantalla principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,6 +22,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Declaración de la actividad InicioSesion -->
+        <activity
+            android:name=".InicioSesion"
+            android:exported="false" />
+
+        <!-- Declaración de la actividad Registro (si es necesaria) -->
+        <activity
+            android:name=".Registro"
+            android:exported="false" />
+
+        <!-- Declaración de otras actividades (si las hay) -->
+        <activity
+            android:name=".PerfilAlumno"
+            android:exported="false" />
+        <activity
+            android:name=".PerfilProfesor"
+            android:exported="false" />
+
     </application>
 
 </manifest>
