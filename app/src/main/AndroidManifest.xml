@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.sottostudio">
+
+    <!-- Permisos necesarios para grabar audio y almacenar temporalmente -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
 
     <application
         android:allowBackup="true"
@@ -12,28 +17,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SottoStudio"
         tools:targetApi="31">
-        <!-- MainActivity configurada como pantalla principal -->
+
+        <!-- Pantalla de arranque (Splash o Main) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Declaración de la actividad InicioSesion -->
+        <!-- Flujo de autenticación -->
         <activity
             android:name=".InicioSesion"
             android:exported="false" />
-
-        <!-- Declaración de la actividad Registro (si es necesaria) -->
         <activity
             android:name=".Registro"
             android:exported="false" />
 
-        <!-- Declaración de otras actividades (si las hay) -->
+        <!-- Perfiles -->
         <activity
             android:name=".PerfilAlumno"
             android:exported="false" />
@@ -41,6 +44,39 @@
             android:name=".PerfilProfesor"
             android:exported="false" />
 
-    </application>
+        <!-- Selección de instrumento -->
+        <activity
+            android:name=".SeleccionInstrumento"
+            android:exported="false" />
 
+        <!-- Registrar estudio (grabación + cronómetro) -->
+        <activity
+            android:name=".RecEstudio"
+            android:exported="false" />
+
+        <!-- Estadísticas, módulos y ejercicios -->
+        <activity
+            android:name=".EstadisticasAlumno"
+            android:exported="false" />
+        <activity
+            android:name=".GestionModulos"
+            android:exported="false" />
+        <activity
+            android:name=".EjerciciosAlumno"
+            android:exported="false" />
+
+        <!-- Ver alumno / Ver ranking -->
+        <activity
+            android:name=".VerAlumno"
+            android:exported="false" />
+        <activity
+            android:name=".VerRanking"
+            android:exported="false" />
+
+        <!-- Herramientas (Afinador, Metrónomo, etc.) -->
+        <activity
+            android:name=".Herramientas"
+            android:exported="false" />
+
+    </application>
 </manifest>

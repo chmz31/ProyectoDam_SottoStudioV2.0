@@ -1,10 +1,16 @@
 package com.example.sottostudio;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -143,6 +149,91 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return "desconocido";
+    }
+    public boolean insertarSesionEstudio(int idUsuario, int idInstrumento, int durMin, String fecha) {
+        ContentValues cv = new ContentValues();
+        cv.put("id_usuario", idUsuario);
+        cv.put("id_instrumento", idInstrumento);
+        cv.put("duracion_minutos", durMin);
+        cv.put("fecha", fecha);
+        long res = getWritableDatabase().insert("registro_estudio", null, cv);
+        return res != -1;
+    }
+    public int obtenerIdUsuario(String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT id_usuario FROM usuarios WHERE email = ?",
+                new String[]{ email }
+        );
+        int id = -1;
+        if (c.moveToFirst()) {
+            id = c.getInt(0);
+        }
+        c.close();
+        return id;
+    }
+    /**
+     * Devuelve la suma de minutos de estudio para un usuario
+     * entre dos fechas (ambas inclusive), en formato YYYY-MM-DD.
+     */
+    public int horasEntre(int idUsuario, String desde, String hasta) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT SUM(duracion_minutos) FROM registro_estudio " +
+                        "WHERE id_usuario = ? AND fecha BETWEEN ? AND ?",
+                new String[]{ String.valueOf(idUsuario), desde, hasta }
+        );
+        int suma = 0;
+        if (c.moveToFirst() && !c.isNull(0)) {
+            suma = c.getInt(0);
+        }
+        c.close();
+        return suma;
+    }
+
+    /** Total de minutos de hoy */
+    public int horasHoy(int idUsuario) {
+        String hoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(new Date());
+        return horasEntre(idUsuario, hoy, hoy);
+    }
+
+    /** Total de minutos de esta semana (Lunes a hoy) */
+    public int horasSemana(int idUsuario) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        String lunes = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(cal.getTime());
+        String hoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(new Date());
+        return horasEntre(idUsuario, lunes, hoy);
+    }
+
+    /** Total de minutos de este mes */
+    public int horasMes(int idUsuario) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        String inicioMes = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(cal.getTime());
+        String hoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(new Date());
+        return horasEntre(idUsuario, inicioMes, hoy);
+    }
+
+    /** Total acumulado de todos los registros */
+    public int horasTotal(int idUsuario) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT SUM(duracion_minutos) FROM registro_estudio " +
+                        "WHERE id_usuario = ?",
+                new String[]{ String.valueOf(idUsuario) }
+        );
+        int suma = 0;
+        if (c.moveToFirst() && !c.isNull(0)) {
+            suma = c.getInt(0);
+        }
+        c.close();
+        return suma;
     }
 }
 

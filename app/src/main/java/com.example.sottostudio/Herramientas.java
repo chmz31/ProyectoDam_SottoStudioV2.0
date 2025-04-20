@@ -31,6 +31,7 @@ public class Herramientas extends AppCompatActivity {
         boton2 = findViewById(R.id.boton2_herramientas);
         boton3 = findViewById(R.id.boton3_herramientas);
 
+
         /* Pendiente de implementar
         boton1.setOnClickListener(v -> {
             pasarPantalla = new Intent(Herramientas.this, Afinador.class);
