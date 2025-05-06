@@ -17,17 +17,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // Retraso de 3 segundos antes de redirigir a InicioSesion
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(MainActivity.this, InicioSesion.class);
             startActivity(intent);
-            finish(); // Finaliza la actividad para evitar volver atrás
-        }, 2000); // 2000 ms = 2 segundos
+            finish(); // Finaliza la actividad para que no se pueda volver a ella
+        }, 3000); // 3000 ms = 3 segundos
     }
-
-    }
+}
