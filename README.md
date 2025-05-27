@@ -53,6 +53,8 @@ registro_estudio
 modulos, ejercicios, ejercicios_alumno
 
 usuarios_instrumentos
+
+
 📦 Instalación y ejecución
 
 Clona el repositorio:
